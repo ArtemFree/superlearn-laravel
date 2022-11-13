@@ -40,8 +40,6 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed'],
         ]);
 
-        dump($request->register_as_author ?? false);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

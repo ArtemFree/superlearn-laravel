@@ -23,16 +23,75 @@ class ProjectController extends Controller
         }
     }
 
+    public function create_page(Request $request)
+    {
+        return view('project.create', array('user' => $request->user(), 'action' => 'create'));
+    }
+
+    public function edit_page(Request $request, $id)
+    {
+        $project = Project::find($id);
+
+        if ($project) {
+            return view('project.edit', array('project' => $project, 'user' => $request->user(), 'action' => 'edit'));
+        }
+    }
+
     public function create(Request $request)
     {
-        return 'create';
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'about' => ['required', 'string'],
+            'award' => ['required', 'integer']
+        ]);
+
+        $project = Project::create([
+            'name' => $request->name,
+            'about' => $request->about,
+            'award' => $request->award,
+            'short_about' => $request->short_about ?? '',
+            'user_id' => $request->user()->id
+        ]);
+
+        return Redirect::to('/project/' . $project->id);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'about' => ['required', 'string'],
+            'award' => ['required', 'integer']
+        ]);
+
+        $project = Project::find($id);
+
+        $project->update(
+            [
+                'name' => $request->name,
+                'about' => $request->about,
+                'award' => $request->award,
+                'short_about' => $request->short_about ?? ''
+            ]
+        );
+
+        return Redirect::to('/project/' . $project->id);
+    }
+
+    public function delete($id)
+    {
+        $project = Project::find($id);
+
+        $project->delete();
+
+        return Redirect::to('/projects');
     }
 
     public function projects(Request $request)
     {
         $project_type = $request->query('project_type', 'all');
         $award_from = $request->query('award_from');
-        $project_order = $request->query('project_order', 'new') ;
+        $project_order = $request->query('project_order', 'new');
         $projects = [];
 
         if ($project_type) {

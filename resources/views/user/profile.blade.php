@@ -15,7 +15,7 @@
                 <a href="/profile/edit">Редактировать профиль</a>
             </p>
         </div>
-        <p>Роль: {{ $is_author ? $is_author : 'Пользователь' }}</p>
+        <p>Роль: {{ $is_author ? 'Автор' : 'Пользователь' }}</p>
         <p>Обо мне: {{ $user->about }}</p>
         <p>Статус: {{ $user->status }}</p>
         <p>Email: {{ $user->email }}</p>

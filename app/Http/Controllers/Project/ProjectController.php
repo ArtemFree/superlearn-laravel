@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
 class ProjectController extends Controller
@@ -16,6 +17,11 @@ class ProjectController extends Controller
     public function index(Request $request, $id)
     {
         $project = Project::find($id);
+
+        if ($request->user()->cannot('view', $project)) {
+            abort(403);
+        }
+
         if ($project) {
             return view('project.page', array('project' => $project));
         } else {
@@ -31,6 +37,10 @@ class ProjectController extends Controller
     public function edit_page(Request $request, $id)
     {
         $project = Project::find($id);
+
+        if ($request->user()->cannot('update', $project)) {
+            abort(403);
+        }
 
         if ($project) {
             return view('project.edit', array('project' => $project, 'user' => $request->user(), 'action' => 'edit'));
@@ -66,6 +76,10 @@ class ProjectController extends Controller
 
         $project = Project::find($id);
 
+        if ($request->user()->cannot('update', $project)) {
+            abort(403);
+        }
+
         $project->update(
             [
                 'name' => $request->name,
@@ -78,9 +92,13 @@ class ProjectController extends Controller
         return Redirect::to('/project/' . $project->id);
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         $project = Project::find($id);
+
+        if ($request->user()->cannot('delete', $project)) {
+            abort(403);
+        }
 
         $project->delete();
 

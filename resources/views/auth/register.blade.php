@@ -49,8 +49,8 @@
             </div>
 
             <div class="mt-4">
-                <label for="register_as_author">
-                    <input type="checkbox" name="register_as_author" id="register_as_author">
+                <label for="is_author">
+                    <input type="checkbox" name="is_author" id="is_author">
                     <span>Зарегистрироваться как автор</span>
                 </label>
             </div>

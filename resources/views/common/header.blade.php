@@ -9,15 +9,17 @@
 
             @if (!Auth::check())
                 <li style="margin-right: 12px;"><a href="/login">Войти</a></li>                
-                <li><a href="/register">Зарегистрироваться</a></li>
+                <li style="margin-right: 12px;"><a href="/register">Зарегистрироваться</a></li>
             @else
                 <form action="/logout" method="POST">
                     @csrf
 
-                    <li><a href="#" onclick="event.preventDefault(); this.closest('form').submit();">Выйти</a></li>
+                    <li><a style="margin-right: 12px;" href="#" onclick="event.preventDefault(); this.closest('form').submit();">Выйти</a></li>
                 </form>
             @endif
-
+            @if (Auth::check())
+                <li>({{ Auth::user()->id }})</li>
+            @endif
         </ul>
     </nav>
 </header>

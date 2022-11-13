@@ -17,27 +17,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('common.welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/user/{id}', [UserController::class, 'index']);
+Route::get('/profile', [UserController::class, 'profile']);
 
 Route::get('/author/{id}', [AuthorController::class, 'index']);
 
+Route::get('/project/create', [ProjectController::class, 'create']);
 Route::get('/project/{id}', [ProjectController::class, 'index']);
-
-Route::get('/signin', function() {
-    return 'signin page';   
-});
-
-Route::get('/signup/user', function() {
-    return 'signup user page';
-});
-
-Route::get('/signup/author', function() {
-    return 'signup author page';
-});
 
 Route::get('/projects', [ProjectController::class, 'projects']);
 
 Route::get('/authors', [AuthorController::class, 'authors']);
+
+
+
+require __DIR__.'/auth.php';

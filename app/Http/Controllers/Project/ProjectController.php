@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class ProjectController extends Controller
 {
@@ -20,6 +21,11 @@ class ProjectController extends Controller
         } else {
             return view('project.404');
         }
+    }
+
+    public function create(Request $request)
+    {
+        return 'create';
     }
 
     public function projects(Request $request)

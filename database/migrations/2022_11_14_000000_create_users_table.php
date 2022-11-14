@@ -26,18 +26,15 @@ return new class extends Migration
             $table->integer('age')->nullable();
             $table->string('status')->nullable();
 
-            $table->boolean('is_author')->default(false);
+            $table->unsignedBigInteger('role_id')->nullable();
+
             $table->boolean('is_banned')->default(false);
             $table->boolean('is_verified')->default(false);
-            
-            $table->integer('money_earned')->default(0);
-            $table->boolean('is_reliable')->default(false);
-            $table->integer('rating')->default(0);
-            $table->integer('completed_projects')->default(0);
-            $table->integer('failed_projects')->default(0);
 
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

@@ -29,13 +29,15 @@ Route::get('/profile', [UserController::class, 'profile']);
 
 Route::get('/author/{id}', [AuthorController::class, 'index']);
 
-Route::get('/project/create', [ProjectController::class, 'create_page']);
-Route::get('/project/{id}/edit', [ProjectController::class, 'edit_page']);
-Route::post('/project/create', [ProjectController::class, 'create']);
-Route::post('/project/{id}/edit', [ProjectController::class, 'edit']);
-Route::get('/project/{id}/delete', [ProjectController::class, 'delete']);
-
-Route::get('/project/{id}', [ProjectController::class, 'index']);
+Route::middleware('auth')->group(function() {
+    Route::get('/project/create', [ProjectController::class, 'create_page']);
+    Route::get('/project/{id}/edit', [ProjectController::class, 'edit_page']);
+    Route::post('/project/create', [ProjectController::class, 'create']);
+    Route::post('/project/{id}/edit', [ProjectController::class, 'edit']);
+    Route::get('/project/{id}/delete', [ProjectController::class, 'delete']);
+    
+    Route::get('/project/{id}', [ProjectController::class, 'index']);
+});
 
 Route::get('/projects', [ProjectController::class, 'projects']);
 

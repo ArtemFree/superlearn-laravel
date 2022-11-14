@@ -23,7 +23,5 @@ class AuthorController extends Controller
         $authors = Author::all();
 
         return view('author.authors', array('authors' => $authors));
-
-
     }
 }

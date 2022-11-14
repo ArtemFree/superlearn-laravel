@@ -18,6 +18,8 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
 
+        abort_if(!$project, 404);
+
         if ($request->user()->cannot('view', $project)) {
             abort(403);
         }
@@ -49,6 +51,10 @@ class ProjectController extends Controller
 
     public function create(Request $request)
     {
+        if ($request->user()->cannot('create', $request->user())) {
+            // abort(403);
+        }
+        
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'about' => ['required', 'string'],
@@ -60,7 +66,7 @@ class ProjectController extends Controller
             'about' => $request->about,
             'award' => $request->award,
             'short_about' => $request->short_about ?? '',
-            'user_id' => $request->user()->id
+            // 'user_id' => $request->user()->id
         ]);
 
         return Redirect::to('/project/' . $project->id);

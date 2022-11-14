@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
@@ -30,7 +31,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->id === $project->user_id || $user->is_author == true;
+        return $user->role->id == Role::ROLES['author'] || $user->id == $project->user_id;
     }
 
     /**
@@ -41,7 +42,8 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        //
+        dd($user);
+        // return $user->role->id == Role::ROLES['user'];
     }
 
     /**

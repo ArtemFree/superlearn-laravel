@@ -25,8 +25,6 @@ return new class extends Migration
             $table->boolean('is_failed')->default(false);
             $table->boolean('is_in_work')->default(false);
             $table->dateTime('is_in_work_since')->nullable();
-
-            $table->integer('user_id');
             
             $table->integer('award')->default(0);
             $table->string('short_about')->nullable();

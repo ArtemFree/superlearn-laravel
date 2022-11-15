@@ -5,7 +5,7 @@
         <div>
             <h1>Мой профиль</h1>
             <p>
-                @if ($user->role->id == 1)
+                @if ($user->role->name == 'user' || $user->role->name == 'admin')
                     <a href="/project/create">Создать проект</a>
                 @endif
                 <a href="/profile/edit">Редактировать профиль</a>
@@ -17,4 +17,8 @@
         <p>Email: {{ $user->email }}</p>
         <p>Дата создания аккаунта: {{ $user->created_at }}</p>
     </div>
+    <p>
+        <h2>Мои {{$user->role->name == 'user' ? 'созданные' : 'рабочие'}} проекты</h2>
+        @include('user.projects', ['user' => $user])
+    </p>
 @endsection

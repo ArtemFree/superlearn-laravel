@@ -19,7 +19,7 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        // return $user->is_author == true || $user;
+        
     }
 
     /**
@@ -31,7 +31,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->role->id == Role::ROLES['author'] || $user->id == $project->user_id;
+        return $user->role->name == 'author' || $user->id == $project->user_id;
     }
 
     /**
@@ -42,8 +42,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        dd($user);
-        // return $user->role->id == Role::ROLES['user'];
+        return $user->role->name == 'user';
     }
 
     /**
@@ -79,7 +78,7 @@ class ProjectPolicy
      */
     public function restore(User $user, Project $project)
     {
-        //
+        return $user->id === $project->user_id;
     }
 
     /**
@@ -91,6 +90,6 @@ class ProjectPolicy
      */
     public function forceDelete(User $user, Project $project)
     {
-        //
+        return $user->id === $project->user_id;
     }
 }

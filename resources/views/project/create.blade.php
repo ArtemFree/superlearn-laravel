@@ -1,7 +1,7 @@
 @extends('common.page')
 
 @section('content')
-    <form method="POST" action="/project/create" style="width: 30%">
+    <form method="POST" action="/project" style="width: 30%">
         @csrf
 
         <div style="margin-bottom: 24px; display: flex; flex-direction: column">

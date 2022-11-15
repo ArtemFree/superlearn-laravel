@@ -25,9 +25,15 @@ return new class extends Migration
             $table->boolean('is_failed')->default(false);
             $table->boolean('is_in_work')->default(false);
             $table->dateTime('is_in_work_since')->nullable();
+
+            $table->unsignedBigInteger('author_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             
             $table->integer('award')->default(0);
             $table->string('short_about')->nullable();
+
+            $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

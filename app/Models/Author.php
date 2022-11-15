@@ -10,4 +10,8 @@ class Author extends Model
     use HasFactory;
 
     protected $fillable = ['user_id'];
+
+    public function projects() {
+        return $this->hasMany(Project::class);
+    }
 }

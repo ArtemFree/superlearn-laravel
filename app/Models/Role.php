@@ -9,7 +9,7 @@ class Role extends Model
 {
     use HasFactory;
 
-    public const ROLES = array('user' => 1, 'author' => 2);
+    public const ROLES = array('user' => 2, 'author' => 3, 'admin' => 1);
 
     public function users()
     {

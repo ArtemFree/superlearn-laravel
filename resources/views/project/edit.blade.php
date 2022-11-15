@@ -14,9 +14,8 @@
 @endphp
 
 @section('content')
-    <form method="POST" action="/project/{{ $project->id }}/edit" style="width: 30%">
+    <form method="POST" action="/project/{{ $project->id }}" style="width: 30%">
         @csrf
-
         <div style="margin-bottom: 24px; display: flex; flex-direction: column">
             <label for="name">Название проекта</label>
             <input type="text" value="{{ getValue(old('name'), $project->name) }}" name="name" id="name">

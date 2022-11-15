@@ -14,4 +14,8 @@ class Project extends Model
     public function user() {
         return $this->belongsToMany(User::class);
     }
+
+    public function author() {
+        return $this->belongsTo(Author::class);
+    }
 }

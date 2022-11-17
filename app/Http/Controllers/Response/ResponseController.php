@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Project;
 use App\Models\Response;
-use App\Models\User;
+use App\Models\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -19,7 +19,6 @@ class ResponseController extends Controller
      */
     public function index(Request $request, $id)
     {
-
     }
 
     /**
@@ -61,7 +60,7 @@ class ResponseController extends Controller
             'user_id' => $project->id
         ]);
 
-        return Redirect::to('/project/'.$project->id.'/response/');
+        return Redirect::to('/project/' . $project->id . '/response/');
     }
 
     /**
@@ -124,5 +123,69 @@ class ResponseController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function create_message(Request $request, $projectId, $responseId = null)
+    {
+        // use policy 
+
+        $request->validate([
+            'text' => ['required']
+        ]);
+
+        $user = $request->user();
+        $response = null;
+
+        if ($user->author) {
+            $response = Response::where('author_id', $user->author->id)->where('project_id', $projectId)->first();
+        } else {
+            $response = Response::find($responseId);
+        }
+
+        abort_if($request->user()->cannot('create', $response), 403);
+
+        ResponseMessage::create([
+            'text' => $request->text,
+            'user_id' => $user->id,
+            'response_id' => $response->id
+        ]);
+
+        if ($user->author) {
+            return Redirect('/project/' . $projectId . '/response');
+        } else {
+            return Redirect('/project/' . $projectId . '/response/' . $response->id);
+        }
+    }
+
+    public function select_author(Request $request, $projectId, $responseId = null)
+    {
+        $response = Response::find($responseId);
+        $user = $request->user();
+
+        abort_if($user->role->name !== 'user' || $response->user_id !== $user->id, 403);
+
+        $response->update([
+            'selected_author_id' => $response->author->id,
+        ]);
+
+        return Redirect('/project/' . $projectId . '/response/' . $response->id);
+    }
+
+    public function confirm_author(Request $request, $projectId)
+    {
+        $user = $request->user();
+        $response = Response::where('author_id', $request->user()->author->id)->where('project_id', $projectId)->first();;
+
+        $project = Project::find($projectId);
+
+        abort_if(!$response || !$project, 403);
+
+        $project->update([
+            "is_in_work" => true,
+            "is_in_work_since" => date('Y-m-d h:i:s', time()),
+            "author_id" => $request->user()->author->id
+        ]);
+
+        return Redirect('/project/' . $projectId . '/response');
     }
 }

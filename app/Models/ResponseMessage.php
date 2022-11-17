@@ -9,6 +9,8 @@ class ResponseMessage extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['text', 'user_id', 'response_id'];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

@@ -19,6 +19,10 @@ class Response extends Model
         return $this->belongsTo(Author::class);
     }
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function messages() {
         return $this->hasMany(ResponseMessage::class, 'response_id');
     }

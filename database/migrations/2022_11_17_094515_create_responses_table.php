@@ -18,10 +18,12 @@ return new class extends Migration
 
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('author_id')->nullable();
+            $table->unsignedBigInteger('selected_author_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
 
             $table->foreign('project_id')->references('id')->on('projects');
             $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('selected_author_id')->references('id')->on('authors');
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();

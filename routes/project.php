@@ -38,4 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/project/{id}/response/{responseId}', [ResponseController::class, 'show'])->middleware('user');
 
     Route::post('/project/{id}/response', [ResponseController::class, 'store']);
+
+    Route::post('/project/{id}/response/{responseId}/message', [ResponseController::class, 'create_message']);
+
+    Route::post('/project/{id}/response/{responseId}/select-author', [ResponseController::class, 'select_author']);
+
+    Route::post('/project/{id}/response/confirm-author', [ResponseController::class, 'confirm_author']);
 });

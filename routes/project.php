@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Response\ResponseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +28,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/project/{id}/edit', [ProjectController::class, 'edit']);
 
     Route::get('/project/{id}/delete', [ProjectController::class, 'destroy']);
+
+    // response
+
+    Route::get('/project/{id}/response/create', [ResponseController::class, 'create']);
+
+    Route::get('/project/{id}/response', [ResponseController::class, 'show'])->middleware('author');
+
+    Route::get('/project/{id}/response/{responseId}', [ResponseController::class, 'show'])->middleware('user');
+
+    Route::post('/project/{id}/response', [ResponseController::class, 'store']);
 });

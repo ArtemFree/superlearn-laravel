@@ -27,5 +27,33 @@
         @can('delete', $project)
             <a href="/project/{{ $project->id }}/delete" style="color: red;">Удалить</a>
         @endcan
+
+        @if (Auth::user()->role->name == 'author' && !$response && !$project->author_id)
+            <a href="/project/{{ $project->id }}/response/create">Откликнуться</a>
+        @endif
+
+        @if (Auth::user()->role->name == 'author' && $response && !$project->author_id)
+            <div>Вы откликнулись на этот проект</div>
+            <a href="/project/{{ $project->id }}/response">Страница отклика</a>
+        @endif
+
+        @if (Auth::user()->role->name == 'author' && Auth::user()->author->id == $project->author_id)
+            <div>Вы выбраны в качестве исполнителя</div>
+        @endif
+
+        @if ($project->user_id == Auth::id())
+            <ul>
+                @foreach ($project->responses as $response)
+                    <li>
+                        <a href="/project/{{ $project->id }}/response/{{ $response->id }}">
+                            <h3>Заявка от пользователя: {{ $response->author->user->name }}</h3>
+                        </a>
+                        <p>Сообщение: {{ $response->messages[0]->text }}</p>
+                        <p>Дата: {{ $response->created_at }}</p>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+
     </div>
 @endsection

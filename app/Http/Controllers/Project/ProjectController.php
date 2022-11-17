@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -102,6 +103,13 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
 
+        $user = $request->user();
+        if ($user->author) {
+            $user = $user->author;
+        }
+
+        $response = Response::where('project_id', $project->id)->where('author_id', $user->id)->first();
+
         abort_if(!$project, 404);
 
         if ($request->user()->cannot('view', $project)) {
@@ -109,7 +117,7 @@ class ProjectController extends Controller
         }
 
         if ($project) {
-            return view('project.page', array('project' => $project));
+            return view('project.page', array('project' => $project, 'response' => $response));
         } else {
             return view('project.404');
         }

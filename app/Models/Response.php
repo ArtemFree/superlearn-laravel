@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Response extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function user() {
-        return $this->belongsToMany(User::class);
+    public function project() {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function author() {
         return $this->belongsTo(Author::class);
     }
 
-    public function responses() {
-        return $this->hasMany(Response::class);
+    public function messages() {
+        return $this->hasMany(ResponseMessage::class, 'response_id');
     }
 }

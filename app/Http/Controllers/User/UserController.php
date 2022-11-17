@@ -28,6 +28,7 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         $user = $request->user();
-        return view('user.profile', array('user' => $user, 'projects' => $user->projects));
+
+        return view('user.profile', array('user' => $user, 'projects' => $user->projects, 'responses' => $user->role->name == 'author' ? $user->author->responses : []));
     }
 }
